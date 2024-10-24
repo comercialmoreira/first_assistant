@@ -130,6 +130,7 @@ def sidebar():
             f'Adicione a api key para o provedor {provedor}',
             value=st.session_state.get(f'api_key_{provedor}'))
         st.session_state[f'api_key_{provedor}'] = api_key
+        
     if st.button('Inicializar o First Assistant', use_container_width=True):
             carrega_modelo(provedor, modelo, api_key, tipo_arquivo, arquivo)
     if st.button('Apagar Histórico de Conversa', use_container_width=True):
