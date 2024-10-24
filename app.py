@@ -109,7 +109,7 @@ def sidebar():
         tipo_arquivo = st.selectbox('Selecione o tipo de arquivo', TIPOS_ARQUIVOS_VALIDOS)
         if tipo_arquivo == 'Analisador de Site':
             arquivo = st.text_input('Digite a url do site')
-        if tipo_arquivo == 'Analizador de Youtube':
+        if tipo_arquivo == 'Analisador de Youtube':
             arquivo = st.text_input('Digite a url do vídeo')
         if tipo_arquivo == 'Analisador de Pdf':
             arquivo = st.file_uploader('Faça o upload do arquivo pdf', type=['.pdf'])
