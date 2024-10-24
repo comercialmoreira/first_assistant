@@ -10,7 +10,7 @@ from langchain.prompts import ChatPromptTemplate
 from loaders import *
 
 TIPOS_ARQUIVOS_VALIDOS = [
-    'Analisador de Site', 'Analador de Youtube', 'Analisador de Pdf', 'Analisador de CSV', 'Analisador de Texto'
+    'Analisador de Site', 'Analisador de Youtube', 'Analisador de Pdf', 'Analisador de CSV', 'Analisador de Texto'
 ]
 
 CONFIG_MODELOS = {'Groq': 
@@ -25,7 +25,7 @@ MEMORIA = ConversationBufferMemory()
 def carrega_arquivos(tipo_arquivo, arquivo):
     if tipo_arquivo == 'Analisador de Site':
         documento = carrega_site(arquivo)
-    if tipo_arquivo == 'Analizador de Youtube':
+    if tipo_arquivo == 'Analisador de Youtube':
         documento = carrega_youtube(arquivo)
     if tipo_arquivo == 'Analisador de Pdf':
         with tempfile.NamedTemporaryFile(suffix='.pdf', delete=False) as temp:
