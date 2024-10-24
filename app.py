@@ -88,7 +88,7 @@ def pagina_chat():
         chat = st.chat_message(mensagem.type)
         chat.markdown(mensagem.content)
 
-    input_usuario = st.chat_input('Fale com o oráculo')
+    input_usuario = st.chat_input('Fale com o First Assistant')
     if input_usuario:
         chat = st.chat_message('human')
         chat.markdown(input_usuario)
