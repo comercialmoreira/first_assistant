@@ -20,7 +20,7 @@ CONFIG_MODELOS = {'Groq':
                         {'modelos': ['llama-3.1-70b-versatile', 'gemma2-9b-it', 'mixtral-8x7b-32768'],
                          'chat': ChatGroq},
                   'OpenAI': 
-                        {'modelos': ['gpt-4o-mini', 'gpt-4o', 'o1-preview', 'o1-mini'],
+                        {'modelos': ['gpt-4o-mini', 'gpt-3.5-turbo'],
                          'chat': ChatOpenAI}}
 
 MEMORIA = ConversationBufferMemory()
