@@ -7,6 +7,7 @@ from langchain_community.document_loaders import (WebBaseLoader,
                                                   PyPDFLoader, 
                                                   TextLoader)
 from fake_useragent import UserAgent
+from langchain_community.document_loaders.image import UnstructuredImageLoader
 
 def carrega_site(url):
     documento = ''
@@ -45,6 +46,12 @@ def carrega_pdf(caminho):
 
 def carrega_txt(caminho):
     loader = TextLoader(caminho)
+    lista_documentos = loader.load()
+    documento = '\n\n'.join([doc.page_content for doc in lista_documentos])
+    return documento
+
+def carrega_img(caminho):
+    loader = UnstructuredImageLoader(caminho)
     lista_documentos = loader.load()
     documento = '\n\n'.join([doc.page_content for doc in lista_documentos])
     return documento
