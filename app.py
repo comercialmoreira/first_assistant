@@ -13,7 +13,7 @@ st.set_page_config(layout="wide"
     , page_title="First Assistant")
 
 TIPOS_ARQUIVOS_VALIDOS = [
-    'Analisador de Site', 'Analisador de Youtube', 'Analisador de Pdf', 'Analisador de CSV', 'Analisador de Texto'
+    'Analisador de Site', 'Analisador de Youtube', 'Analisador de Pdf', 'Analisador de CSV', 'Analisador de Texto', 'Analisador de Imagem'
 ]
 
 CONFIG_MODELOS = {'Groq': 
@@ -45,6 +45,12 @@ def carrega_arquivos(tipo_arquivo, arquivo):
             temp.write(arquivo.read())
             nome_temp = temp.name
         documento = carrega_txt(nome_temp)
+    if tipo_arquivo == 'Analisador de Imagem':
+        with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as temp:
+            temp.write(arquivo.read())
+            nome_temp = temp.name
+        documento = carrega_img(nome_temp)
+    return documento
 
 def carrega_modelo(provedor, modelo, api_key, tipo_arquivo, arquivo):
 
@@ -120,6 +126,8 @@ def sidebar():
         if tipo_arquivo == 'Analisador de Texto':
             arquivo = st.file_uploader('Faça o upload do arquivo txt', type=['.txt'])
 
+        if tipo_arquivo == 'Analisador de Imagem':
+            arquivo = st.file_uploader('Faça o upload do arquivo png', type=['.png'])
 
     with tabs[1]:
         provedor = st.selectbox('Selecione o provedor dos modelo', CONFIG_MODELOS.keys())
