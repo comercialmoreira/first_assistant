@@ -51,7 +51,7 @@ def carrega_txt(caminho):
     return documento
 
 def carrega_img(caminho):
-    loader = UnstructuredImageLoader(caminho)
+    loader = UnstructuredImageLoader(caminho, mode='elements')
     lista_documentos = loader.load()
     documento = '\n\n'.join([doc.page_content for doc in lista_documentos])
     return documento[0]
