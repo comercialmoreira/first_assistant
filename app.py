@@ -68,8 +68,7 @@ def carrega_modelo(provedor, modelo, api_key, tipo_arquivo, arquivo):
 
     Sempre que houver $ na sua saída, substita por S.
 
-    Se a informação do documento for algo como "Just a moment...Enable JavaScript and cookies to continue" 
-    sugira ao usuário carregar novamente o Oráculo!'''.format(tipo_arquivo, documento)
+    Se a informação do documento for algo como "Just a moment...Enable JavaScript and cookies to continue", sugira ao usuário carregar novamente o First Assistant!'''.format(tipo_arquivo, documento)
 
     print(system_message)
 
