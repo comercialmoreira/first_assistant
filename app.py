@@ -56,7 +56,7 @@ def carrega_modelo(provedor, modelo, api_key, tipo_arquivo, arquivo):
 
     documento = carrega_arquivos(tipo_arquivo, arquivo)
 
-    system_message = '''Você é um assistente amigável chamado Oráculo.
+    system_message = '''Você é um assistente amigável chamado First Assistant.
     Você possui acesso às seguintes informações vindas 
     de um documento {}: 
 
@@ -64,7 +64,7 @@ def carrega_modelo(provedor, modelo, api_key, tipo_arquivo, arquivo):
     {}
     ####
 
-    Utilize as informações fornecidas para basear as suas respostas.
+    Utilize as informações fornecidas para basear as suas respostas. E retorne respostas completas, não apenas resumos.
 
     Sempre que houver $ na sua saída, substita por S.
 
