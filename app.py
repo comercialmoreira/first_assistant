@@ -81,7 +81,7 @@ def carrega_modelo(provedor, modelo, tipo_arquivo, arquivo):
         ('placeholder', '{chat_history}'),
         ('user', '{input}')
     ])
-    chat = CONFIG_MODELOS[provedor]['chat'](model=modelo)
+    chat = CONFIG_MODELOS[provedor]['chat'](model=modelo, temperature=0, openai_api_key=api_key)
     chain = template | chat
 
     st.session_state['chain'] = chain
