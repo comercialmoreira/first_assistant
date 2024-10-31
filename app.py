@@ -115,8 +115,13 @@ def pagina_chat():
         st.session_state['memoria'] = memoria
 
 def sidebar():
-    tabs = st.tabs(['Upload de Arquivos', 'Seleção de Modelos'])
+    tabs = st.tabs(['Analisadores', 'Conversas'])
     with tabs[0]:
+        provedor = st.selectbox('Selecione o provedor dos modelo', CONFIG_MODELOS.keys())
+        modelo = st.selectbox('Selecione o modelo', CONFIG_MODELOS[provedor]['modelos'])
+        api_key = api_key
+        st.divider()
+
         tipo_arquivo = st.selectbox('Selecione o tipo de arquivo', TIPOS_ARQUIVOS_VALIDOS)
         if tipo_arquivo == 'Analisador de Site':
             arquivo = st.text_input('Digite a url do site')
@@ -138,8 +143,7 @@ def sidebar():
             st.session_state['memoria'] = MEMORIA
 
     with tabs[1]:
-        provedor = st.selectbox('Selecione o provedor dos modelo', CONFIG_MODELOS.keys())
-        modelo = st.selectbox('Selecione o modelo', CONFIG_MODELOS[provedor]['modelos'])
+        st.header('Em breve')
         
         
     
