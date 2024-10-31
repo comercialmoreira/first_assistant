@@ -7,8 +7,8 @@ from langchain_groq import ChatGroq
 from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 from dotenv import load_dotenv, find_dotenv
-_ = load_dotenv(find_dotenv())
-api_key = os.getenv('OPENAI_API_KEY')
+api_key = load_dotenv(find_dotenv('OPENAI_API_KEY'))
+
 
 from loaders import *
 
