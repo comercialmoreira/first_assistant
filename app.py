@@ -56,7 +56,7 @@ def carrega_arquivos(tipo_arquivo, arquivo):
         documento = carrega_img(nome_temp)
     return documento
 
-def carrega_modelo(provedor, modelo, api_key, tipo_arquivo, arquivo):
+def carrega_modelo(provedor, modelo, tipo_arquivo, arquivo):
 
     documento = carrega_arquivos(tipo_arquivo, arquivo)
 
@@ -81,7 +81,7 @@ def carrega_modelo(provedor, modelo, api_key, tipo_arquivo, arquivo):
         ('placeholder', '{chat_history}'),
         ('user', '{input}')
     ])
-    chat = CONFIG_MODELOS[provedor]['chat'](model=modelo, api_key=api_key)
+    chat = CONFIG_MODELOS[provedor]['chat'](model=modelo)
     chain = template | chat
 
     st.session_state['chain'] = chain
@@ -136,9 +136,9 @@ def sidebar():
         if tipo_arquivo == 'Analisador de Imagem':
             arquivo = st.file_uploader('Faça o upload do arquivo png', type=['.png'])
         
-    if st.button('Inicializar o First Assistant', use_container_width=True):
-            carrega_modelo(provedor, modelo, api_key, tipo_arquivo, arquivo)
-    if st.button('Apagar Histórico de Conversa', use_container_width=True):
+        if st.button('Inicializar o First Assistant', use_container_width=True):
+            carrega_modelo(provedor, modelo, tipo_arquivo, arquivo)
+        if st.button('Apagar Histórico de Conversa', use_container_width=True):
             st.session_state['memoria'] = MEMORIA
 
     with tabs[1]:
