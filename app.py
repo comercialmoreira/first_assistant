@@ -56,7 +56,7 @@ def carrega_arquivos(tipo_arquivo, arquivo):
         documento = carrega_img(nome_temp)
     return documento
 
-def carrega_modelo(provedor, modelo, tipo_arquivo, arquivo):
+def carrega_modelo(provedor, modelo, tipo_arquivo, arquivo, api_key=api_key):
 
     documento = carrega_arquivos(tipo_arquivo, arquivo)
 
