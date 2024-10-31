@@ -136,9 +136,9 @@ def sidebar():
         if tipo_arquivo == 'Analisador de Imagem':
             arquivo = st.file_uploader('Faça o upload do arquivo png', type=['.png'])
         
-        if st.button('Inicializar o First Assistant', use_container_width=True):
+    if st.button('Inicializar o First Assistant', use_container_width=True):
             carrega_modelo(provedor, modelo, tipo_arquivo, arquivo)
-        if st.button('Apagar Histórico de Conversa', use_container_width=True):
+    if st.button('Apagar Histórico de Conversa', use_container_width=True):
             st.session_state['memoria'] = MEMORIA
 
     with tabs[1]:
