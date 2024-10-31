@@ -1,5 +1,5 @@
 import tempfile
-
+import os
 import streamlit as st
 from langchain.memory import ConversationBufferMemory
 
@@ -8,7 +8,7 @@ from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 from dotenv import load_dotenv, find_dotenv
 _ = load_dotenv(find_dotenv())
-api_key = st.secrets['OPENAI_API_KEY']
+api_key = os.getenv('OPENAI_API_KEY')
 
 from loaders import *
 
