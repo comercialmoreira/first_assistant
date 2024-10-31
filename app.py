@@ -119,7 +119,6 @@ def sidebar():
     with tabs[0]:
         provedor = st.selectbox('Selecione o provedor dos modelo', CONFIG_MODELOS.keys())
         modelo = st.selectbox('Selecione o modelo', CONFIG_MODELOS[provedor]['modelos'])
-        api_key = api_key
         st.divider()
 
         tipo_arquivo = st.selectbox('Selecione o tipo de arquivo', TIPOS_ARQUIVOS_VALIDOS)
