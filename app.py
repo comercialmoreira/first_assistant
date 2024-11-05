@@ -128,19 +128,19 @@ def pagina_chat():
         if mensagem.type == 'human':
             # Estilizar a mensagem do usuário (à direita)
             st.markdown(f"<div style='text-align: right; margin-bottom: 10px;'>"
-                        f"<span style='background-color: #e0f7fa; padding: 10px; border-radius: 10px;'>{mensagem.content}</span>"
+                        f"<span style='padding: 10px; border-radius: 10px;'>{mensagem.content}</span>"
                         f"</div>", unsafe_allow_html=True)
         else:
             # Estilizar a mensagem da IA (à esquerda)
             st.markdown(f"<div style='text-align: left; margin-bottom: 10px;'>"
-                        f"<span style='background-color: #ffe0b2; padding: 10px; border-radius: 10px;'>{mensagem.content}</span>"
+                        f"<span style='padding: 10px; border-radius: 10px;'>{mensagem.content}</span>"
                         f"</div>", unsafe_allow_html=True)
 
     input_usuario = st.chat_input('Fale com o First Assistant')
     if input_usuario:
         # Mensagem do usuário
         st.markdown(f"<div style='text-align: right; margin-bottom: 10px;'>"
-                    f"<span style='background-color: #e0f7fa; padding: 10px; border-radius: 10px;'>{input_usuario}</span>"
+                    f"<span style='padding: 10px; border-radius: 10px;'>{input_usuario}</span>"
                     f"</div>", unsafe_allow_html=True)
 
         # Mensagem da IA
