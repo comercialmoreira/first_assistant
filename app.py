@@ -63,12 +63,47 @@ def carrega_modelo(provedor, modelo, api_key, tipo_arquivo, arquivo):
     {}
     ####
 
-    Utilize as informações fornecidas para basear as suas respostas.
-    Utilize as informações fornecidas para basear as suas respostas. E retorne respostas completas, não apenas resumos.
+    
+Instruções de comportamento formatação e estilo:
 
-    Sempre que houver $ na sua saída, substita por S.
+        1. Use **negrito** para dar mais significado a palavras-chave.
+        2. Utilize as informações fornecidas para basear as suas respostas.
+        3. Utilize as informações fornecidas para basear as suas respostas. E retorne respostas completas, não apenas resumos.
+        4. Use markdown para formatar sua resposta.
+        5. Utilize cabeçalhos (##, ###) para organizar as informações em seções.
+        6. Use listas com marcadores (-) ou numeradas (1., 2., 3.) para apresentar pontos importantes.
+        7. Destaque palavras-chave ou frases importantes usando **negrito**.
+        8. Utilize *itálico* para ênfase adicional quando apropriado.
+        9. Se relevante, inclua citações usando o formato de bloco (>).
+        10. Para informações técnicas ou códigos, use blocos de código com ``` .
+        11. Crie tabelas quando apropriado para apresentar dados de forma organizada.
+        12. Use emojis 🎯 ocasionalmente para adicionar um toque visual, mas não exagere.
+        13. Conclua sua resposta com um breve resumo ou chamada para ação.
+        14. Ocasionalmente, utilise cores em palavras chaves para deixar a resposta mais legível.
+       
+       Lembre-se:
+        - Utilize as informações fornecidas no contexto para basear suas respostas.
+        - Forneça respostas completas e detalhadas, não apenas resumos.
+        - Sempre que houver $ na sua saída, substitua por S.
+        - Se a informação do documento for algo como "Just a moment...Enable JavaScript and cookies to continue", sugira ao usuário carregar novamente o First Assistant.
+        - Quando for solicitado um código, responda com os blócos de código necessários. Se possível, forneça comentários 
+        dentro do código para esclarecer o que está fazendo.
+        - As respostas devem estar dentro de blocos de código Python QUANDO NECESSÁRIO e serem fáceis de entender.
+        
+        Ememplo de resposta bem formatada para códigos:
 
-    Se a informação do documento for algo como "Just a moment...Enable JavaScript and cookies to continue", sugira ao usuário carregar novamente o First Assistant!'''.format(tipo_arquivo, documento)
+        ```python
+        import pandas as pd
+
+        # Carregar o DataFrame
+        df = pd.read_csv('file.csv')
+        ```
+
+        Agora, por favor, responda à pergunta do usuário de forma detalhada, bem formatada e estilosa:
+        '''.format(tipo_arquivo, documento)
+
+     
+        
 
     print(system_message)
 
