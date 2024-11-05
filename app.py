@@ -1,14 +1,11 @@
 import tempfile
-import os
+
 import streamlit as st
 from langchain.memory import ConversationBufferMemory
 
 from langchain_groq import ChatGroq
 from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
-from dotenv import load_dotenv, find_dotenv
-api_key = load_dotenv(find_dotenv('OPENAI_API_KEY'))
-
 
 from loaders import *
 
@@ -19,13 +16,12 @@ TIPOS_ARQUIVOS_VALIDOS = [
     'Analisador de Site', 'Analisador de Youtube', 'Analisador de Pdf', 'Analisador de CSV', 'Analisador de Texto', 'Analisador de Imagem'
 ]
 
-CONFIG_MODELOS = {'OpenAI': 
-                        {'modelos': ['gpt-4o-mini', 'gpt-3.5-turbo'],
-                         'chat': ChatOpenAI},
-                'Groq': 
+CONFIG_MODELOS = {'Groq': 
                         {'modelos': ['llama-3.1-70b-versatile', 'gemma2-9b-it', 'mixtral-8x7b-32768'],
-                         'chat': ChatGroq}}
-                 
+                         'chat': ChatGroq},
+                  'OpenAI': 
+                        {'modelos': ['gpt-4o-mini', 'gpt-3.5-turbo'],
+                         'chat': ChatOpenAI}}
 
 MEMORIA = ConversationBufferMemory()
 
@@ -56,18 +52,18 @@ def carrega_arquivos(tipo_arquivo, arquivo):
         documento = carrega_img(nome_temp)
     return documento
 
-def carrega_modelo(provedor, modelo, tipo_arquivo, arquivo, api_key=api_key):
+def carrega_modelo(provedor, modelo, api_key, tipo_arquivo, arquivo):
 
     documento = carrega_arquivos(tipo_arquivo, arquivo)
-
     system_message = '''Você é um assistente amigável chamado First Assistant.
     Você possui acesso às seguintes informações vindas 
     de um documento {}: 
 
-    ####
+
     {}
     ####
 
+    Utilize as informações fornecidas para basear as suas respostas.
     Utilize as informações fornecidas para basear as suas respostas. E retorne respostas completas, não apenas resumos.
 
     Sempre que houver $ na sua saída, substita por S.
@@ -81,7 +77,7 @@ def carrega_modelo(provedor, modelo, tipo_arquivo, arquivo, api_key=api_key):
         ('placeholder', '{chat_history}'),
         ('user', '{input}')
     ])
-    chat = CONFIG_MODELOS[provedor]['chat'](model=modelo, temperature=0, openai_api_key=api_key)
+    chat = CONFIG_MODELOS[provedor]['chat'](model=modelo, api_key=api_key)
     chain = template | chat
 
     st.session_state['chain'] = chain
@@ -115,12 +111,8 @@ def pagina_chat():
         st.session_state['memoria'] = memoria
 
 def sidebar():
-    tabs = st.tabs(['Analisadores', 'Conversas'])
+    tabs = st.tabs(['Upload de Arquivos', 'Seleção de Modelos'])
     with tabs[0]:
-        provedor = st.selectbox('Selecione o provedor dos modelo', CONFIG_MODELOS.keys())
-        modelo = st.selectbox('Selecione o modelo', CONFIG_MODELOS[provedor]['modelos'])
-        st.divider()
-
         tipo_arquivo = st.selectbox('Selecione o tipo de arquivo', TIPOS_ARQUIVOS_VALIDOS)
         if tipo_arquivo == 'Analisador de Site':
             arquivo = st.text_input('Digite a url do site')
@@ -135,17 +127,19 @@ def sidebar():
 
         if tipo_arquivo == 'Analisador de Imagem':
             arquivo = st.file_uploader('Faça o upload do arquivo png', type=['.png'])
-        
-    if st.button('Inicializar o First Assistant', use_container_width=True):
-            carrega_modelo(provedor, modelo, tipo_arquivo, arquivo)
-    if st.button('Apagar Histórico de Conversa', use_container_width=True):
-            st.session_state['memoria'] = MEMORIA
 
     with tabs[1]:
-        st.header('Em breve')
+        provedor = st.selectbox('Selecione o provedor dos modelo', CONFIG_MODELOS.keys())
+        modelo = st.selectbox('Selecione o modelo', CONFIG_MODELOS[provedor]['modelos'])
+        api_key = st.text_input(
+            f'Adicione a api key para o provedor {provedor}',
+            value=st.session_state.get(f'api_key_{provedor}'))
+        st.session_state[f'api_key_{provedor}'] = api_key
         
-        
-    
+    if st.button('Inicializar o First Assistant', use_container_width=True):
+            carrega_modelo(provedor, modelo, api_key, tipo_arquivo, arquivo)
+    if st.button('Apagar Histórico de Conversa', use_container_width=True):
+            st.session_state['memoria'] = MEMORIA
     
 
 def main():
