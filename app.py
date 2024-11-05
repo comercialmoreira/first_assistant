@@ -1,51 +1,53 @@
 import tempfile
-
 import streamlit as st
 from langchain.memory import ConversationBufferMemory
-
 from langchain_groq import ChatGroq
 from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 
 from loaders import *
 
-st.set_page_config(layout="wide"
-    , page_title="First Assistant")
+st.set_page_config(layout="wide", page_title="First Assistant")
 
 TIPOS_ARQUIVOS_VALIDOS = [
-    'Analisador de Site', 'Analisador de Youtube', 'Analisador de Pdf', 'Analisador de CSV', 'Analisador de Texto', 'Analisador de Imagem'
+    'Analisador de Site', 'Analisador de Youtube', 'Analisador de Pdf', 
+    'Analisador de CSV', 'Analisador de Texto', 'Analisador de Imagem'
 ]
 
-CONFIG_MODELOS = {'Groq': 
-                        {'modelos': ['llama-3.1-70b-versatile', 'gemma2-9b-it', 'mixtral-8x7b-32768'],
-                         'chat': ChatGroq},
-                  'OpenAI': 
-                        {'modelos': ['gpt-4o-mini', 'gpt-3.5-turbo'],
-                         'chat': ChatOpenAI}}
+CONFIG_MODELOS = {
+    'Groq': {
+        'modelos': ['llama-3.1-70b-versatile', 'gemma2-9b-it', 'mixtral-8x7b-32768'],
+        'chat': ChatGroq
+    },
+    'OpenAI': {
+        'modelos': ['gpt-4o-mini', 'gpt-3.5-turbo'],
+        'chat': ChatOpenAI
+    }
+}
 
 MEMORIA = ConversationBufferMemory()
 
 def carrega_arquivos(tipo_arquivo, arquivo):
     if tipo_arquivo == 'Analisador de Site':
         documento = carrega_site(arquivo)
-    if tipo_arquivo == 'Analisador de Youtube':
+    elif tipo_arquivo == 'Analisador de Youtube':
         documento = carrega_youtube(arquivo)
-    if tipo_arquivo == 'Analisador de Pdf':
+    elif tipo_arquivo == 'Analisador de Pdf':
         with tempfile.NamedTemporaryFile(suffix='.pdf', delete=False) as temp:
             temp.write(arquivo.read())
             nome_temp = temp.name
         documento = carrega_pdf(nome_temp)
-    if tipo_arquivo == 'Analisador de CSV':
+    elif tipo_arquivo == 'Analisador de CSV':
         with tempfile.NamedTemporaryFile(suffix='.csv', delete=False) as temp:
             temp.write(arquivo.read())
             nome_temp = temp.name
         documento = carrega_csv(nome_temp)
-    if tipo_arquivo == 'Analisador de Texto':
+    elif tipo_arquivo == 'Analisador de Texto':
         with tempfile.NamedTemporaryFile(suffix='.txt', delete=False) as temp:
             temp.write(arquivo.read())
             nome_temp = temp.name
         documento = carrega_txt(nome_temp)
-    if tipo_arquivo == 'Analisador de Imagem':
+    elif tipo_arquivo == 'Analisador de Imagem':
         with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as temp:
             temp.write(arquivo.read())
             nome_temp = temp.name
@@ -53,7 +55,6 @@ def carrega_arquivos(tipo_arquivo, arquivo):
     return documento
 
 def carrega_modelo(provedor, modelo, api_key, tipo_arquivo, arquivo):
-
     documento = carrega_arquivos(tipo_arquivo, arquivo)
     system_message = '''Você é um assistente amigável chamado First Assistant.
     Você possui acesso às seguintes informações vindas 
@@ -63,7 +64,7 @@ def carrega_modelo(provedor, modelo, api_key, tipo_arquivo, arquivo):
     {}
     ####
 
-    
+
 Instruções de comportamento formatação e estilo:
 
         1. Use **negrito** para dar mais significado a palavras-chave.
@@ -80,7 +81,7 @@ Instruções de comportamento formatação e estilo:
         12. Use emojis 🎯 ocasionalmente para adicionar um toque visual, mas não exagere.
         13. Conclua sua resposta com um breve resumo ou chamada para ação.
         14. Ocasionalmente, utilise cores em palavras chaves para deixar a resposta mais legível.
-       
+
        Lembre-se:
         - Utilize as informações fornecidas no contexto para basear suas respostas.
         - Forneça respostas completas e detalhadas, não apenas resumos.
@@ -89,8 +90,8 @@ Instruções de comportamento formatação e estilo:
         - Quando for solicitado um código, responda com os blócos de código necessários. Se possível, forneça comentários 
         dentro do código para esclarecer o que está fazendo.
         - As respostas devem estar dentro de blocos de código Python QUANDO NECESSÁRIO e serem fáceis de entender.
-        
-        Ememplo de resposta bem formatada para códigos:
+
+        Exemplo de resposta bem formatada para códigos:
 
         ```python
         import pandas as pd
@@ -101,9 +102,6 @@ Instruções de comportamento formatação e estilo:
 
         Agora, por favor, responda à pergunta do usuário de forma detalhada, bem formatada e estilosa:
         '''.format(tipo_arquivo, documento)
-
-     
-        
 
     print(system_message)
 
@@ -122,25 +120,36 @@ def pagina_chat():
 
     chain = st.session_state.get('chain')
     if chain is None:
-        st.error('Carrege o First Assistant antes de digitar')
+        st.error('Carregue o First Assistant antes de digitar')
         st.stop()
 
     memoria = st.session_state.get('memoria', MEMORIA)
     for mensagem in memoria.buffer_as_messages:
-        chat = st.chat_message(mensagem.type)
-        chat.markdown(mensagem.content)
+        if mensagem.type == 'human':
+            # Estilizar a mensagem do usuário (à direita)
+            st.markdown(f"<div style='text-align: right; margin-bottom: 10px;'>"
+                        f"<span style='background-color: #e0f7fa; padding: 10px; border-radius: 10px;'>{mensagem.content}</span>"
+                        f"</div>", unsafe_allow_html=True)
+        else:
+            # Estilizar a mensagem da IA (à esquerda)
+            st.markdown(f"<div style='text-align: left; margin-bottom: 10px;'>"
+                        f"<span style='background-color: #ffe0b2; padding: 10px; border-radius: 10px;'>{mensagem.content}</span>"
+                        f"</div>", unsafe_allow_html=True)
 
     input_usuario = st.chat_input('Fale com o First Assistant')
     if input_usuario:
-        chat = st.chat_message('human')
-        chat.markdown(input_usuario)
+        # Mensagem do usuário
+        st.markdown(f"<div style='text-align: right; margin-bottom: 10px;'>"
+                    f"<span style='background-color: #e0f7fa; padding: 10px; border-radius: 10px;'>{input_usuario}</span>"
+                    f"</div>", unsafe_allow_html=True)
 
+        # Mensagem da IA
         chat = st.chat_message('ai')
         resposta = chat.write_stream(chain.stream({
             'input': input_usuario, 
             'chat_history': memoria.buffer_as_messages
-            }))
-        
+        }))
+
         memoria.chat_memory.add_user_message(input_usuario)
         memoria.chat_memory.add_ai_message(resposta)
         st.session_state['memoria'] = memoria
@@ -151,37 +160,35 @@ def sidebar():
         tipo_arquivo = st.selectbox('Selecione o tipo de arquivo', TIPOS_ARQUIVOS_VALIDOS)
         if tipo_arquivo == 'Analisador de Site':
             arquivo = st.text_input('Digite a url do site')
-        if tipo_arquivo == 'Analisador de Youtube':
+        elif tipo_arquivo == 'Analisador de Youtube':
             arquivo = st.text_input('Digite a url do vídeo')
-        if tipo_arquivo == 'Analisador de Pdf':
+        elif tipo_arquivo == 'Analisador de Pdf':
             arquivo = st.file_uploader('Faça o upload do arquivo pdf', type=['.pdf'])
-        if tipo_arquivo == 'Analisador de CSV':
+        elif tipo_arquivo == 'Analisador de CSV':
             arquivo = st.file_uploader('Faça o upload do arquivo csv', type=['.csv'])
-        if tipo_arquivo == 'Analisador de Texto':
+        elif tipo_arquivo == 'Analisador de Texto':
             arquivo = st.file_uploader('Faça o upload do arquivo txt', type=['.txt'])
-
-        if tipo_arquivo == 'Analisador de Imagem':
+        elif tipo_arquivo == 'Analisador de Imagem':
             arquivo = st.file_uploader('Faça o upload do arquivo png', type=['.png'])
 
     with tabs[1]:
-        provedor = st.selectbox('Selecione o provedor dos modelo', CONFIG_MODELOS.keys())
+        provedor = st.selectbox('Selecione o provedor dos modelos', CONFIG_MODELOS.keys())
         modelo = st.selectbox('Selecione o modelo', CONFIG_MODELOS[provedor]['modelos'])
         api_key = st.text_input(
-            f'Adicione a api key para o provedor {provedor}',
+            f'Adicione a API Key para o provedor {provedor}',
             value=st.session_state.get(f'api_key_{provedor}'))
         st.session_state[f'api_key_{provedor}'] = api_key
-        
+
     if st.button('Inicializar o First Assistant', use_container_width=True):
-            carrega_modelo(provedor, modelo, api_key, tipo_arquivo, arquivo)
+        carrega_modelo(provedor, modelo, api_key, tipo_arquivo, arquivo)
+
     if st.button('Apagar Histórico de Conversa', use_container_width=True):
-            st.session_state['memoria'] = MEMORIA
-    
+        st.session_state['memoria'] = MEMORIA
 
 def main():
     with st.sidebar:
         sidebar()
     pagina_chat()
-
 
 if __name__ == '__main__':
     main()
