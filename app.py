@@ -132,11 +132,8 @@ def pagina_chat():
 
     input_usuario = st.chat_input('Fale com o First Assistant')
     if input_usuario:
-        if input_usuario:
-        # Mensagem do usuário
-            st.markdown(f"<div style='text-align: right; margin-bottom: 10px;'>"
-                    f"<span style='background-color: #666; padding: 10px; border-radius: 10px;'>{input_usuario}</span>"
-                    f"</div>", unsafe_allow_html=True)
+        chat = st.chat_message('human')
+        chat.markdown(input_usuario)
 
         chat = st.chat_message('ai')
         resposta = chat.write_stream(chain.stream({
