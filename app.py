@@ -25,7 +25,7 @@ CONFIG_MODELOS = {'Groq':
                          'chat': ChatGroq,
                          'api_key': groq},
                   'OpenAI': 
-                        {'modelos': ['gpt-4o-mini', 'gpt-3.5-turbo'],
+                        {'modelos': ['gpt-4o-mini', 'gpt-3.5-turbo', 'gpt-4o'],
                          'chat': ChatOpenAI,
                          'api_key': openai}}
 
