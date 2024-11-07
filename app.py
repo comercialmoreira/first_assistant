@@ -10,7 +10,8 @@ from langchain.prompts import ChatPromptTemplate
 from loaders import *
 
 st.set_page_config(layout="wide"
-    , page_title="First Assistant")
+    , page_title="First Assistant",
+    )
 
 TIPOS_ARQUIVOS_VALIDOS = [
     'Analisador de Site', 'Analisador de Youtube', 'Analisador de Pdf', 'Analisador de CSV', 'Analisador de Texto', 'Analisador de Imagem'
