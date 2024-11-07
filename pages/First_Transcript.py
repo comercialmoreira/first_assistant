@@ -126,7 +126,7 @@ def transcreve_tab_audio():
 
 # MAIN =====================================
 def main():
-    st.header('_VINCE_ :violet[_Transcription_]', divider='violet')
+    st.header('_First_ :violet[_Transcription_]', divider='violet')
     st.markdown('#### Transcreva áudio do microfone, de vídeos e de arquivos de áudio')
     tab_mic, tab_video, tab_audio = st.tabs(['Microfone', 'Vídeo', 'Áudio'])
     with tab_mic:
