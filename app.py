@@ -16,8 +16,8 @@ TIPOS_ARQUIVOS_VALIDOS = [
     'Analisador de Site', 'Analisador de Youtube', 'Analisador de Pdf', 'Analisador de CSV', 'Analisador de Texto', 'Analisador de Imagem'
 ]
 
-openai = st.secrets["OPENAI_API_KEY_"]
-groq = st.secrets["GROQ_API_KEY_"]
+openai = st.secrets["OPENAI_API_KEY"]
+groq = st.secrets["GROQ_API_KEY"]
 
 CONFIG_MODELOS = {'Groq': 
                         {'modelos': ['llama-3.1-70b-versatile', 'gemma2-9b-it', 'mixtral-8x7b-32768'],
