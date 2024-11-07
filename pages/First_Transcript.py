@@ -113,7 +113,7 @@ def transcreve_tab_video():
 # TRANSCREVE AUDIO =====================================
 def transcreve_tab_audio():
     prompt_input = st.text_input('(opcional) Digite o seu prompt', key='input_audio')
-    arquivo_audio = st.file_uploader('Adicione um arquivo de áudio', type=['mp3', 'mp4', 'MP3', 'MP4', 'M4A', 'm4a', 'wav', 'WAV'])
+    arquivo_audio = st.file_uploader('Adicione um arquivo de áudio', type=['mp3', 'mp4', 'MP3', 'MP4', 'M4A', 'm4a', 'wav', 'WAV', 'flac', 'FLAC', 'ogg', 'OGG'])
     if not arquivo_audio is None:
         transcricao = client.audio.transcriptions.create(
             model='whisper-1',
