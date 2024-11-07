@@ -51,11 +51,7 @@ def carrega_arquivos(tipo_arquivo, arquivo):
             temp.write(arquivo.read())
             nome_temp = temp.name
         documento = carrega_txt(nome_temp)
-    elif tipo_arquivo == 'Analisador de Imagem':
-        with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as temp:
-            temp.write(arquivo.read())
-            nome_temp = temp.name
-        documento = carrega_img(nome_temp)
+    
     return documento
 
 def carrega_modelo(provedor, modelo, api_key, tipo_arquivo, arquivo):
