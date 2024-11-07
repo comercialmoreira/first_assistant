@@ -12,3 +12,5 @@ youtube_transcript_api==0.6.2
 pdfminer.six
 pi-heif
 unstructured
+streamlit_webrtc
+moviepy
