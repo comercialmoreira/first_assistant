@@ -33,7 +33,7 @@ MEMORIA = ConversationBufferMemory()
 
 def carrega_arquivos(tipo_arquivo, arquivo):
     if tipo_arquivo == 'Chat':
-        documento = carrega_site("https://firstbrazil.com.br/")
+        documento = carrega_site(arquivo)
     if tipo_arquivo == 'Analisador de Site':
         documento = carrega_site(arquivo)
     if tipo_arquivo == 'Analisador de Youtube':
@@ -164,7 +164,7 @@ def sidebar():
         if tipo_arquivo == 'Analisador de Texto':
             arquivo = st.file_uploader('Faça o upload do arquivo txt', type=['.txt'])
         if tipo_arquivo == 'Chat':
-            arquivo = arquivo
+            arquivo = "https://firstbrazil.com.br/"
         if tipo_arquivo == 'Analisador de Imagem':
             arquivo = st.file_uploader('Faça o upload do arquivo png', type=['.png'])
 
