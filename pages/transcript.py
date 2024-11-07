@@ -15,9 +15,7 @@ ARQUIVO_AUDIO_TEMP = PASTA_TEMP / 'audio.mp3'
 ARQUIVO_VIDEO_TEMP = PASTA_TEMP / 'video.mp4'
 ARQUIVO_MIC_TEMP = PASTA_TEMP / 'mic.mp3'
 
-client = openai.Client(
-    api_key=st.secrets["OPENAI_API_KEY"],
-)
+client = openai.Client()
 
 import os
 
