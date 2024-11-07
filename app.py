@@ -14,7 +14,7 @@ st.set_page_config(layout="wide"
     )
 
 TIPOS_ARQUIVOS_VALIDOS = [
-    'Analisador de Site', 'Analisador de Youtube', 'Analisador de Pdf', 'Analisador de CSV', 'Analisador de Texto', 'Analisador de Imagem'
+    'Chat','Analisador de Site', 'Analisador de Youtube', 'Analisador de Pdf', 'Analisador de CSV', 'Analisador de Texto', 'Analisador de Imagem'
 ]
 
 openai = st.secrets["OPENAI_API_KEY"]
@@ -32,6 +32,8 @@ CONFIG_MODELOS = {'Groq':
 MEMORIA = ConversationBufferMemory()
 
 def carrega_arquivos(tipo_arquivo, arquivo):
+    if tipo_arquivo == 'Chat':
+        documento = carrega_site("https://firstbrazil.com.br/")
     if tipo_arquivo == 'Analisador de Site':
         documento = carrega_site(arquivo)
     if tipo_arquivo == 'Analisador de Youtube':
@@ -161,7 +163,8 @@ def sidebar():
             arquivo = st.file_uploader('Faça o upload do arquivo csv', type=['.csv'])
         if tipo_arquivo == 'Analisador de Texto':
             arquivo = st.file_uploader('Faça o upload do arquivo txt', type=['.txt'])
-
+        if tipo_arquivo == 'Chat':
+            arquivo = arquivo
         if tipo_arquivo == 'Analisador de Imagem':
             arquivo = st.file_uploader('Faça o upload do arquivo png', type=['.png'])
 
