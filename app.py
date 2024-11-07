@@ -16,12 +16,17 @@ TIPOS_ARQUIVOS_VALIDOS = [
     'Analisador de Site', 'Analisador de Youtube', 'Analisador de Pdf', 'Analisador de CSV', 'Analisador de Texto', 'Analisador de Imagem'
 ]
 
+openai = st.secrets["OPENAI_API_KEY_"]
+groq = st.secrets["GROQ_API_KEY_"]
+
 CONFIG_MODELOS = {'Groq': 
                         {'modelos': ['llama-3.1-70b-versatile', 'gemma2-9b-it', 'mixtral-8x7b-32768'],
-                         'chat': ChatGroq},
+                         'chat': ChatGroq,
+                         'api_key': groq},
                   'OpenAI': 
                         {'modelos': ['gpt-4o-mini', 'gpt-3.5-turbo'],
-                         'chat': ChatOpenAI}}
+                         'chat': ChatOpenAI,
+                         'api_key': openai}}
 
 MEMORIA = ConversationBufferMemory()
 
@@ -45,7 +50,7 @@ def carrega_arquivos(tipo_arquivo, arquivo):
             temp.write(arquivo.read())
             nome_temp = temp.name
         documento = carrega_txt(nome_temp)
-    if tipo_arquivo == 'Analisador de Imagem':
+    elif tipo_arquivo == 'Analisador de Imagem':
         with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as temp:
             temp.write(arquivo.read())
             nome_temp = temp.name
@@ -166,10 +171,7 @@ def sidebar():
     with tabs[1]:
         provedor = st.selectbox('Selecione o provedor dos modelo', CONFIG_MODELOS.keys())
         modelo = st.selectbox('Selecione o modelo', CONFIG_MODELOS[provedor]['modelos'])
-        api_key = st.text_input(
-            f'Adicione a api key para o provedor {provedor}',
-            value=st.session_state.get(f'api_key_{provedor}'))
-        st.session_state[f'api_key_{provedor}'] = api_key
+        api_key = CONFIG_MODELOS[provedor]['api_key']
         
     if st.button('Inicializar o First Assistant', use_container_width=True):
             carrega_modelo(provedor, modelo, api_key, tipo_arquivo, arquivo)

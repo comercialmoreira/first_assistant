@@ -11,3 +11,4 @@ fake_useragent==1.5.1
 youtube_transcript_api==0.6.2
 pdfminer.six
 pi-heif
+unstructured
