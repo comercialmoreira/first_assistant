@@ -14,3 +14,4 @@ pi-heif
 unstructured
 streamlit_webrtc
 moviepy
+pydub
