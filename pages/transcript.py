@@ -7,7 +7,7 @@ import openai
 import pydub
 from moviepy.editor import VideoFileClip
 
-openai = st.secrets["OPENAI_API_KEY"]
+key = st.secrets["OPENAI_API_KEY"]
 
 PASTA_TEMP = Path(__file__).parent / 'temp'
 PASTA_TEMP.mkdir(exist_ok=True)
