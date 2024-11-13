@@ -28,9 +28,13 @@ def carrega_site(url):
 
 def carrega_youtube(video_id):
     loader = YoutubeLoader(video_id, add_video_info=False, language=['pt'])
-    lista_documentos = loader.load()
-    documento = '\n\n'.join([doc.page_content for doc in lista_documentos])
-    return documento
+    try:
+        lista_documentos = loader.load()
+        documento = '\n\n'.join([doc.page_content for doc in lista_documentos])
+        return documento
+    except Exception as e:
+        st.error(f"Erro ao carregar o vídeo do YouTube: {e}")
+        st.stop()
 
 def carrega_csv(caminho):
     loader = CSVLoader(caminho)
